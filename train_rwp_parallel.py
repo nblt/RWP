@@ -207,8 +207,11 @@ def main():
     
     optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
 
+    # Double the training epochs since each iteration will consume two batches data for calculating g and g_s
+    args.epochs = args.epochs * 2
+
     if args.schedule == 'step':
-        lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[100, 150], last_epoch=args.start_epoch - 1)
+        lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[int(args.epochs * 0.5), int(args.epochs * 0.75)], last_epoch=args.start_epoch - 1)
     elif args.schedule == 'cosine':
         lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs)
 
@@ -216,8 +219,6 @@ def main():
         validate(val_loader, model, criterion)
         return
 
-    # Double the training epochs since each iteration will consume two batches data
-    args.epochs = args.epochs * 2
 
     is_best = 0
     print ('Start training: ', args.start_epoch, '->', args.epochs)

@@ -233,6 +233,11 @@ def main_worker(gpu, ngpus_per_node, args):
         print("=> creating model '{}'".format(args.arch))
         model = models.__dict__[args.arch]()
 
+    
+    # Double the training epochs since each iteration will consume two batches data for calculating g and g_s
+    args.epochs = args.epochs * 2
+
+
     if not torch.cuda.is_available():
         print('using CPU, this will be slow')
     elif args.distributed:

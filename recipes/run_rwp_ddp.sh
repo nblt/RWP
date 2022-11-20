@@ -2,7 +2,7 @@
 
 ################################ CIFAR ###################################
 datasets=CIFAR100
-device=1,2
+device=0,1 # use two GPUs for parallel computing
 model=resnet18 #  resnet18 VGG16BN WideResNet16x8 WideResNet28x10
 schedule=cosine
 wd=0.001
