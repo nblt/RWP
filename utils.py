@@ -153,7 +153,7 @@ def get_datasets_ddp(args):
                 transforms.RandomCrop(32, 4),
                 transforms.ToTensor(),
                 normalize,
-            ]))
+            ]), download=True)
                                        
         train_sampler = torch.utils.data.distributed.DistributedSampler(my_trainset)
         train_loader = torch.utils.data.DataLoader(my_trainset, batch_size=args.batch_size, sampler=train_sampler)
@@ -167,7 +167,7 @@ def get_datasets_ddp(args):
             num_workers=args.workers, pin_memory=True)
     
     elif args.datasets == 'CIFAR100':
-        print ('cifar10 dataset!')
+        print ('cifar100 dataset!')
         normalize = transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
         
         my_trainset = datasets.CIFAR100(root='./datasets/', train=True, transform=transforms.Compose([
@@ -175,7 +175,7 @@ def get_datasets_ddp(args):
                 transforms.RandomCrop(32, 4),
                 transforms.ToTensor(),
                 normalize,
-            ]))
+            ]), download=True)
         train_sampler = torch.utils.data.distributed.DistributedSampler(my_trainset)
         train_loader = torch.utils.data.DataLoader(my_trainset, batch_size=args.batch_size, sampler=train_sampler)
 
@@ -263,7 +263,7 @@ def get_datasets_cutout_ddp(args):
             num_workers=args.workers, pin_memory=True)
     
     elif args.datasets == 'CIFAR100':
-        print ('cifar10 dataset!')
+        print ('cifar100 dataset!')
         normalize = transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
         
         my_trainset = datasets.CIFAR100(root='./datasets/', train=True, transform=transforms.Compose([
@@ -272,7 +272,7 @@ def get_datasets_cutout_ddp(args):
                 transforms.ToTensor(),
                 normalize,
                 Cutout()
-            ]))
+            ]), download=True)
         train_sampler = torch.utils.data.distributed.DistributedSampler(my_trainset)
         train_loader = torch.utils.data.DataLoader(my_trainset, batch_size=args.batch_size, sampler=train_sampler, drop_last=True, num_workers=args.workers, pin_memory=True)
 
