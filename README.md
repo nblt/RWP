@@ -17,5 +17,5 @@ We provide example usages in `/recipes/`.
 For parallelized training of RWP, we could run
 
 ```
-bash run_rwp_ddp.sh
+bash recipes/run_rwp_ddp.sh
 ```
