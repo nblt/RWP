@@ -76,8 +76,8 @@ parser.add_argument('--wd', '--weight-decay', default=1e-4, type=float,
                     dest='weight_decay')
 parser.add_argument('--alpha',  default=0.5, type=float,
                     metavar='AA', help='alpha for mixing gradients')
-parser.add_argument('--rho',  default=0.01, type=float,
-                    metavar='RHO', help='rho for noise')
+parser.add_argument('--gamma',  default=0.01, type=float,
+                    metavar='GAMMA', help='gamma for noise')
 
 parser.add_argument('-p', '--print-freq', default=1000, type=int,
                     metavar='N', help='print frequency (default: 10)')
@@ -160,7 +160,7 @@ def main():
     
     args = parser.parse_args()
 
-    print ('rho:', args.rho)
+    print ('gamma:', args.gamma)
     save_dir = 'save_' + args.arch 
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -234,7 +234,7 @@ def main_worker(gpu, ngpus_per_node, args):
         model = models.__dict__[args.arch]()
 
     
-    # Double the training epochs since each iteration will consume two batches data for calculating g and g_s
+    # Double the training epochs since each iteration will consume two batches of data for calculating g and g_s
     args.epochs = args.epochs * 2
     args.batch_size = args.batch_size * 2
 
@@ -418,10 +418,10 @@ def train(train_loader, model, criterion, optimizer, epoch, args, ngpus_per_node
                     sh = mp.shape
                     sh_mul = np.prod(sh[1:])
                     temp = mp.view(sh[0], -1).norm(dim=1, keepdim=True).repeat(1, sh_mul).view(mp.shape)
-                    temp = torch.normal(0, args.rho*temp).to(mp.data.device)
+                    temp = torch.normal(0, args.gamma*temp).to(mp.data.device)
                 else:
                     temp = torch.empty_like(mp, device=mp.data.device)
-                    temp.normal_(0, args.rho*(mp.view(-1).norm().item() + 1e-16))
+                    temp.normal_(0, args.gamma*(mp.view(-1).norm().item() + 1e-16))
                 noise.append(temp)
                 mp.data.add_(noise[-1])
         else:

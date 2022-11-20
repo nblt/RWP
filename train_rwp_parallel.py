@@ -207,7 +207,7 @@ def main():
     
     optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
 
-    # Double the training epochs since each iteration will consume two batches data for calculating g and g_s
+    # Double the training epochs since each iteration will consume two batches of data for calculating g and g_s
     args.epochs = args.epochs * 2
 
     if args.schedule == 'step':
