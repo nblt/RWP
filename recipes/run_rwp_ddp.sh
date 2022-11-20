@@ -10,7 +10,7 @@ epoch=200
 bz=256
 lr=0.10
 port=1234
-seed=42
+seed=0
 alpha=0.5
 gamma=0.01
 
