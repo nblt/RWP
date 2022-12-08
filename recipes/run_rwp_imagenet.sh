@@ -1,7 +1,7 @@
 #!/bin/bash
 
 datasets=ImageNet
-device=0,1,2,3 # doubles GPUs for parallel computing of RWP
+device=0,1,2,3 # parallel computing
 
 model=resnet18
 path=... # dir for ImageNet datasets
