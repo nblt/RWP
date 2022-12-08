@@ -1,7 +1,7 @@
 #!/bin/bash
 
 datasets=ImageNet
-device=0,1,2,3 # parallel computing
+device=0,1,2,3 # parallelized training for RWP
 
 model=resnet18
 path=... # dir for ImageNet datasets
